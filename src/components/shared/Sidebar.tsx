@@ -29,6 +29,7 @@ const Sidebar = () => {
                   "sidebar-nav_element group text-gray-700 data-[active=true]:bg-purple-gradient data-[active=true]:text-white",
                 link: "sidebar-link",
               }}
+              showIcon
             />
 
             <NavLinks
@@ -40,6 +41,7 @@ const Sidebar = () => {
                   "sidebar-nav_element group text-gray-700 data-[active=true]:bg-purple-gradient data-[active=true]:text-white",
                 link: "sidebar-link",
               }}
+              showIcon
             />
           </SignedIn>
 

@@ -16,6 +16,8 @@ type Props = {
     link?: string;
     linkContainer?: string;
     icon?: string;
+    iconContainer?: string;
+    label?: string;
   };
 };
 
@@ -37,15 +39,17 @@ const NavLinks = ({ links, isSignedIn, showIcon, classNames }: Props) => {
           >
             <Link className={classNames?.link} href={link.route}>
               {showIcon && (
-                <Image
-                  src={link.icon}
-                  alt={link.label}
-                  width={24}
-                  height={24}
-                  className={classNames?.icon}
-                />
+                <div className={classNames?.iconContainer}>
+                  <Image
+                    src={link.icon}
+                    alt={link.label}
+                    width={24}
+                    height={24}
+                    className={classNames?.icon}
+                  />
+                </div>
               )}
-              {link.label}
+              <p className={classNames?.label}>{link.label}</p>
             </Link>
           </li>
         );

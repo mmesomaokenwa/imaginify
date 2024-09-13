@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const navLinks = [
   {
     label: "Home",
@@ -119,7 +120,7 @@ export const plans = [
   },
 ];
 
-export const transformationTypes = {
+export const transformationTypes: Record<string, any> = {
   restore: {
     type: "restore",
     title: "Restore Image",
