@@ -11,17 +11,17 @@ const Home = async ({ searchParams }: SearchParamProps) => {
 
   return (
     <>
-      <section className="home">
+      <section className="home px-4 md:px-10">
         <h1 className="home-heading">
           Unleash Your Creative Vision with Imaginify
         </h1>
         <NavLinks
           links={navLinks.slice(1, 5)}
           classNames={{
-            container: "flex-center w-full gap-20",
+            container: "flex-center w-full gap-6 sm:gap-20",
             link: "flex-center flex-col gap-2",
             iconContainer: "flex-center w-fit rounded-full bg-white p-4",
-            label: "p-14-medium text-center text-white hidden md:block",
+            label: "p-14-medium text-center text-white hidden sm:block",
           }}
           showIcon
         />
