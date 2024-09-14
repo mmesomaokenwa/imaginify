@@ -5,6 +5,8 @@ import { getImageById } from "@/lib/actions/image.actions";
 import { Metadata } from "next";
 import { generateStaticParams } from "../page";
 
+export const revalidate = 3600;
+
 const UpdateTransformation = async ({ params: { id } }: SearchParamProps) => {
   const image = await getImageById(id);
 

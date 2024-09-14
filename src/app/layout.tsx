@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     description: "An AI image generation platform",
     images: [
       {
-        url: "/og-image.png",
+        url: "https://mfgadjucjxcfjhuaebjq.supabase.co/storage/v1/object/public/products/public/Macbook-Air-imaginify-ai-prod.vercel.app.png",
       },
     ],
   },
