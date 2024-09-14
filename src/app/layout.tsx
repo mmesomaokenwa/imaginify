@@ -10,8 +10,26 @@ const ibmPlexSans = IBM_Plex_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Imaginify",
+  title: {
+    template: "%s | Imaginify",
+    default: "Imaginify",
+  },
   description: "An AI image generation platform",
+  openGraph: {
+    type: "website",
+    url: process.env.NEXT_PUBLIC_SERVER_URL,
+    title: {
+      template: "%s | Imaginify",
+      default: "Imaginify",
+    },
+    siteName: "Imaginify",
+    description: "An AI image generation platform",
+    images: [
+      {
+        url: "/og-image.png",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({

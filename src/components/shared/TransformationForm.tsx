@@ -33,6 +33,7 @@ import { addImage, updateImage } from "@/lib/actions/image.actions";
 import { useRouter } from "next/navigation";
 import InsufficientCreditsModal from "@/components/shared/InsufficientCreditsModal";
 import { useToast } from "@/hooks/use-toast";
+import { useUser } from "@/hooks/use-user";
 
 export const formSchema = z.object({
   title: z.string(),
@@ -45,9 +46,7 @@ export const formSchema = z.object({
 const TransformationForm = ({
   action,
   data = null,
-  userId,
   type,
-  creditBalance,
   config = null,
 }: TransformationFormProps) => {
   const transformationType = transformationTypes[type];
@@ -60,6 +59,7 @@ const TransformationForm = ({
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const { toast } = useToast();
+  const { data: user } = useUser();
 
   const initialValues =
     data && action === "Update"
@@ -106,7 +106,7 @@ const TransformationForm = ({
         try {
           const newImage = await addImage({
             image: imageData,
-            userId,
+            userId: user?._id as string,
             path: "/",
           });
 
@@ -139,7 +139,7 @@ const TransformationForm = ({
               ...imageData,
               _id: data._id,
             },
-            userId,
+            userId: user?._id as string,
             path: `/transformations/${data._id}`,
           });
 
@@ -212,7 +212,7 @@ const TransformationForm = ({
     setNewTransformation(null);
 
     startTransition(async () => {
-      await updateCredits(userId, creditFee);
+      await updateCredits(user?._id as string, creditFee);
     });
   };
 
@@ -225,7 +225,7 @@ const TransformationForm = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {creditBalance < Math.abs(creditFee) && <InsufficientCreditsModal />}
+        {user && user.creditBalance < Math.abs(creditFee) && <InsufficientCreditsModal />}
         <CustomField
           control={form.control}
           name="title"

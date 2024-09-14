@@ -7,19 +7,19 @@ import { useToast } from "@/hooks/use-toast";
 import { checkoutCredits } from "@/lib/actions/transaction.actions";
 
 import { Button } from "../ui/button";
+import { useUser } from "@/hooks/use-user";
 
 const Checkout = ({
   plan,
   amount,
   credits,
-  buyerId,
 }: {
   plan: string;
   amount: number;
   credits: number;
-  buyerId: string;
 }) => {
   const { toast } = useToast();
+  const { data: user } = useUser();
 
   useEffect(() => {
     loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
@@ -48,11 +48,13 @@ const Checkout = ({
   }, [toast]);
 
   const onCheckout = async () => {
+    if (!user) return;
+
     const transaction = {
       plan,
       amount,
       credits,
-      buyerId,
+      buyerId: user._id as string,
     };
 
     await checkoutCredits(transaction);

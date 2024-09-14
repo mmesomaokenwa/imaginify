@@ -5,14 +5,18 @@ import Link from "next/link";
 import Header from "@/components/shared/Header";
 import TransformedImage from "@/components/shared/TransformedImage";
 import { Button } from "@/components/ui/button";
-import { getImageById } from "@/lib/actions/image.actions";
+import { getAllImages, getImageById } from "@/lib/actions/image.actions";
 import { getImageSize } from "@/lib/utils";
 import DeleteConfirmation from "@/components/shared/DeleteConfirmation";
+import { Metadata } from "next";
+import { IImage } from "@/lib/database/models/image.model";
+
+export const revalidate = 3600;
 
 const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
   const { userId } = auth();
 
-  const image = await getImageById(id);
+  const image = await getImageById(id) as IImage;
 
   return (
     <>
@@ -78,7 +82,7 @@ const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
             type={image.transformationType}
             title={image.title}
             isTransforming={false}
-            transformationConfig={image.config}
+            transformationConfig={image.config || null}
             hasDownload={true}
           />
         </div>
@@ -91,12 +95,36 @@ const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
               </Link>
             </Button>
 
-            <DeleteConfirmation imageId={image._id} />
+            <DeleteConfirmation imageId={image._id as string} />
           </div>
         )}
       </section>
     </>
   );
 };
+
+export const generateStaticParams = async () => {
+  const images = await getAllImages({ limit: null, page: null });
+
+  return images?.data.map((image: IImage) => ({
+    id: image._id,
+  }));
+};
+
+export const generateMetadata = async ({ params }: SearchParamProps): Promise<Metadata> => {
+  const image = await getImageById(params.id) as IImage;
+
+  return {
+    title: image.title,
+    description: "View the details of the image and its transformations",
+    openGraph: {
+      title: image.title,
+      description: "View the details of the image and its transformations",
+      images: [{
+        url: image.secureURL,
+      }],
+    },
+  }
+}
 
 export default ImageDetails;

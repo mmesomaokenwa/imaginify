@@ -100,9 +100,9 @@ export async function getAllImages({
   page = 1,
   searchQuery = "",
 }: {
-  limit?: number;
-  page: number;
-  searchQuery?: string;
+  limit?: number | null;
+  page?: number | null;
+  searchQuery?: string | null;
 }) {
   try {
     await connectToDB();
@@ -136,19 +136,22 @@ export async function getAllImages({
       };
     }
 
-    const skipAmount = (Number(page) - 1) * limit;
+    const skipAmount = page && limit ? (Number(page) - 1) * limit : 0;
 
-    const images = await populateUser(Image.find(query))
-      .sort({ updatedAt: -1 })
-      .skip(skipAmount)
-      .limit(limit);
+    const images = limit && skipAmount
+      ? await populateUser(Image.find(query))
+          .sort({ updatedAt: -1 })
+          .skip(skipAmount)
+          .limit(limit)
+      : await populateUser(Image.find(query))
+          .sort({ updatedAt: -1 });
 
     const totalImages = await Image.find(query).countDocuments();
     const savedImages = await Image.find().countDocuments();
 
     return {
       data: JSON.parse(JSON.stringify(images)),
-      totalPage: Math.ceil(totalImages / limit),
+      totalPage: limit ? Math.ceil(totalImages / limit) : 1,
       savedImages,
     };
   } catch (error) {

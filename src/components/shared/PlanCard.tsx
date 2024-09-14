@@ -7,10 +7,9 @@ import Image from 'next/image'
 
 type PlanCardProps = {
   plan: typeof plans[number]
-  userId: string
 }
 
-const PlanCard = ({ plan, userId }: PlanCardProps) => {
+const PlanCard = ({ plan }: PlanCardProps) => {
   return (
     <li className="credits-item">
       <div className="flex-center flex-col gap-3">
@@ -50,7 +49,6 @@ const PlanCard = ({ plan, userId }: PlanCardProps) => {
             plan={plan.name}
             amount={plan.price}
             credits={plan.credits}
-            buyerId={userId}
           />
         </SignedIn>
       )}

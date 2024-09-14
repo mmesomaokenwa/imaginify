@@ -1,20 +1,18 @@
-import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
-
 import Header from "@/components/shared/Header";
 import { plans } from "@/constants";
-import { getUserById } from "@/lib/actions/user.actions";
 import PlanCard from "@/components/shared/PlanCard";
+import { Metadata } from "next";
 
-const Credits = async () => {
-  const { userId } = auth();
+export const metadata: Metadata = {
+  title: "Buy Credits",
+  description: "Choose a credit package that suits your needs!",
+  openGraph: {
+    title: "Buy Credits",
+    description: "Choose a credit package that suits your needs!",
+  },
+}
 
-  if (!userId) redirect("/sign-in");
-
-  const user = await getUserById(userId);
-
-  if (!user) redirect("/sign-in");
-
+const Credits = () => {
   return (
     <>
       <Header
@@ -25,7 +23,7 @@ const Credits = async () => {
       <section>
         <ul className="credits-list">
           {plans.map((plan) => (
-            <PlanCard key={plan.name} plan={plan} userId={user._id} />
+            <PlanCard key={plan.name} plan={plan} />
           ))}
         </ul>
       </section>

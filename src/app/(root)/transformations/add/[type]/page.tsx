@@ -1,9 +1,7 @@
 import Header from '@/components/shared/Header'
 import TransformationForm from '@/components/shared/TransformationForm'
 import { transformationTypes } from '@/constants'
-import { getUserById } from '@/lib/actions/user.actions'
-import { auth } from '@clerk/nextjs/server'
-import { redirect } from 'next/navigation'
+import { Metadata } from 'next'
 import React from 'react'
 
 type AddTransformationProps = {
@@ -14,14 +12,7 @@ type AddTransformationProps = {
 }
 
 const AddTransformation = async ({ params }: AddTransformationProps) => {
-  const { userId } = auth();
-  const transformation = transformationTypes[params.type];
-
-  if (!userId) redirect("/sign-in");
-
-  const user = await getUserById(userId);
-
-  if (!user) redirect("/sign-in");
+  const transformation = transformationTypes[params.type as TransformationTypeKey];
 
   return (
     <>
@@ -30,13 +21,24 @@ const AddTransformation = async ({ params }: AddTransformationProps) => {
       <section className="mt-10">
         <TransformationForm
           action="Add"
-          userId={user._id}
           type={transformation.type as TransformationTypeKey}
-          creditBalance={user.creditBalance}
         />
       </section>
     </>
   );
+}
+
+export const generateMetadata = ({ params }: AddTransformationProps): Metadata => {
+  const transformation = transformationTypes[params.type as TransformationTypeKey];
+
+  return {
+    title: `${transformation.title}`,
+    description: `Add ${transformation.title} to your image`,
+    openGraph: {
+      title: `${transformation.title}`,
+      description: `Add ${transformation.title} to your image`,
+    },
+  }
 }
 
 export default AddTransformation

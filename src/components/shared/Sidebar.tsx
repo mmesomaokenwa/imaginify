@@ -19,7 +19,7 @@ const Sidebar = () => {
           />
         </Link>
 
-        <nav className="sidebar-nav">
+        <nav className="sidebar-nav flex-1 overflow-y-auto">
           <SignedIn>
             <NavLinks
               links={navLinks.slice(0, 6)}
@@ -28,6 +28,7 @@ const Sidebar = () => {
                 linkContainer:
                   "sidebar-nav_element group text-gray-700 data-[active=true]:bg-purple-gradient data-[active=true]:text-white",
                 link: "sidebar-link",
+                icon: "group-data-[active=true]:brightness-200",
               }}
               showIcon
             />
@@ -40,6 +41,7 @@ const Sidebar = () => {
                 linkContainer:
                   "sidebar-nav_element group text-gray-700 data-[active=true]:bg-purple-gradient data-[active=true]:text-white",
                 link: "sidebar-link",
+                icon: "group-data-[active=true]:brightness-200",
               }}
               showIcon
             />

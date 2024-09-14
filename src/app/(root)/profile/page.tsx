@@ -6,6 +6,8 @@ import Collection from "@/components/shared/Collection";
 import Header from "@/components/shared/Header";
 import { getUserImages } from "@/lib/actions/image.actions";
 import { getUserById } from "@/lib/actions/user.actions";
+import { Metadata } from "next";
+import { IUser } from "@/lib/database/models/user.model";
 
 const Profile = async ({ searchParams }: SearchParamProps) => {
   const page = Number(searchParams?.page) || 1;
@@ -13,8 +15,8 @@ const Profile = async ({ searchParams }: SearchParamProps) => {
 
   if (!userId) redirect("/sign-in");
 
-  const user = await getUserById(userId);
-  const images = await getUserImages({ page, userId: user._id });
+  const user = await getUserById(userId) as IUser;
+  const images = await getUserImages({ page, userId: user._id as string });
 
   return (
     <>
@@ -60,5 +62,19 @@ const Profile = async ({ searchParams }: SearchParamProps) => {
     </>
   );
 };
+
+export const generateMetadata = async (): Promise<Metadata> => {
+  const { userId } = auth();
+  const user = await getUserById(userId!);
+
+  return {
+    title: user.username,
+    description: "View the profile of the user",
+    openGraph: {
+      title: user.username,
+      description: "View the profile of the user",
+    },
+  }
+}
 
 export default Profile;

@@ -120,7 +120,7 @@ export const plans = [
   },
 ];
 
-export const transformationTypes: Record<string, any> = {
+export const transformationTypes = {
   restore: {
     type: "restore",
     title: "Restore Image",
