@@ -21,13 +21,13 @@ const Home = async ({ searchParams }: SearchParamProps) => {
             container: "flex-center w-full gap-20",
             link: "flex-center flex-col gap-2",
             iconContainer: "flex-center w-fit rounded-full bg-white p-4",
-            label: "p-14-medium text-center text-white",
+            label: "p-14-medium text-center text-white hidden md:block",
           }}
           showIcon
         />
       </section>
 
-      <section className="sm:mt-12">
+      <section className="mt-12">
         <Collection
           hasSearch
           images={images?.data}
